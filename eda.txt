@@ -1,0 +1,8 @@
+# Types of plots
+
+## Continuous vs. Discrete
+
+- Bar plots: Need to come up with an aggregate value for the continous variable and doesn't show spread
+- Box and whisker plots: Good because it shows distribution of response for each discrete value. However, can get cluttered for large number of groups
+- Overlapping histograms: Shows distribution of response. However, not very feasible for > 2 groups, and they should ideally be around the same size
+- Overlapping density plots: Less cluttered than overlapping histograms. However, more to tune for visualization.
