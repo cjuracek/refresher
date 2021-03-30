@@ -1,6 +1,7 @@
 Articles to Read:
 - http://people.duke.edu/~rnau/testing.htm: Concerns what happens when we violate the assumptions of linear regression. Have really been meaning to read because it would be nice to know the consequences of what happens when the "contract" is not met.
 - Shapley values: https://christophm.github.io/interpretable-ml-book/shap.html
+- Interaction effects: https://bookdown.org/max/FES/detecting-interaction-effects.html
 
 Things to Learn:
 - Shapiro-Wilk test for normality: We've always looked at QQ-plots, and these have seen pretty subjective sometimes. Would be nice to have a quantitative test for normality on the tool shelf.
