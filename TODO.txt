@@ -5,4 +5,5 @@ Articles to Read:
 
 Things to Learn:
 - Shapiro-Wilk test for normality: We've always looked at QQ-plots, and these have seen pretty subjective sometimes. Would be nice to have a quantitative test for normality on the tool shelf.
-- Shapley values: 
+- Shapley values
+- Play around with the "melt" function in R
