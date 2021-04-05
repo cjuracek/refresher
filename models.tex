@@ -9,33 +9,53 @@
 
 \section{Linear Regression}
 
-- We assume the model as: $y = XB + \epsilon$ (matrix form)
+We assume the model as: $y = XB + \epsilon$ (matrix form)
 	- We see this holds for a single case, as the ith observation of $XB + \epsilon = x_1 \beta_1 + x_2 \beta_2 + \ldots + \epsilon_i$
 	- Assume $\epsilon$ distributed $MVN(0, \sigma^2 I)$
 		- Errors are centered around 0, or the expected value of the errors is 0
 		- They all have the same variance (identially distributed)
 		- There is no covariance between the errors (independently distributed)
 
-- Linear: We model the response as linear combination of the betas. Does \textit{not} mean we can't have curves. We can have predictors like $x^2$, they don't need to be linear
-- Finds the line / hyperplane of best fit, where best is defined as minimizing the sum of squared residuals (SSR), defined as: $\sum (y_i - y_pred) ^ 2$
+Linear: We model the response as linear combination of the betas. Does \textit{not} mean we can't have curves. We can have predictors like $x^2$, they don't need to be linear
+
+Finds the line / hyperplane of best fit, where best is defined as minimizing the sum of squared residuals (SSR), defined as: $\sum (y_i - y_{pred}) ^ 2$
 	- Squared so as to treat negative mistakes equally as positive mistakes
-	- Can also minimize the average quantity (divide by n). These are equivalent - positive scalars do not affect argmin problems
+	- Can also minimize the average quantity (divide by n). These are equivalent - positive scalars do not affect argmin 
+	
+Typically low variance, high bias compared to other algorithms - linearity can be a very unrealistic 
 
-- The standard solution is given by $\hat{\beta}_{OLS} = (X^T X)^{-1} X^T y$
-	- Has the name Ordinary Least Squares (OLS)
-	- X is the \textbf{design matrix}- rows denote observations, columns denote features
-	- Obtained via:
-		1. Rewriting SSR in matrix form: $(y - X\beta)^T (y - X\beta)$
-		2. Taking partial wrt $\beta$ (matrix differentiations work similarly to scalars - we can work out the individual betas and see we get equivalent results)
-		3. Set equal to 0 -> solve for beta
-	- Unbiased estimators
-- High bias
-- Not possible in high-dimensional setting - need to introduce regularization
+Not possible in high-dimensional setting ($p > n$) - reduce predictors, get more data, or introduce regularization
+	
+\subsection{OLS Estimates}
+The standard solution is given by $\hat{\beta}_{OLS} = (X^T X)^{-1} X^T y$. This are the \textbf{ordinary least squares} estimators
 
-- Model comparison:
-	- $R^2$: Percentage of variance explained by model. Monotonically increases with more predictors (cannot use to compare models with different number of predictors)
-	- Adjusted $R^2$: Like $R^2$, but "penalizes" on adding more predictors. Can compare models with different number of predictors
-	- AIC / BIC
+X is the \textbf{design matrix}- rows denote observations, columns denote features
+
+Obtained via:
+\begin{enumerate}
+	\item  Rewriting SSR in matrix form: $(y - X\beta)^T (y - X\beta)$
+	\item Taking partial wrt $\beta$ (matrix differentiations work similarly to scalars - we can work out the individual betas and see we get equivalent results)
+	\item Set equal to 0 $\rightarrow$ solve for $\beta$
+\end{enumerate}
+
+Unbiased ($E[\hat{\beta}] = \beta$)
+
+\subsection{Model Comparison}
+
+The most immediate metric for a model is $R^2$: the percentage of variance explained by the model. However, has a few problems
+
+\begin{itemize}
+	\item Monotonically increases with more predictors. Therefore under this metric, there is no penalty to adding as many predictors as we want, even if they're barely / not at all related with the response
+	\item With above, cannot be used to compare models with different number of predictors, as the more parsimonious one is disadvantaged
+	\item Doesn't really tell you if the model is performing well - in some domains with a lot of variability (social sciences), low $R^2$ values are common, even though the model itself is agreed to be ``good''
+\end{itemize}
+	
+Therefore some alternative criterion are introduced to account for additional predictors:
+
+\begin{itemize}
+	\item Adjusted $R^2$: Like $R^2$, but "penalizes" on adding more predictors. Can compare models with different number of predictors
+	\item AIC / BIC
+\end{itemize}
 
 \section{Logistic Regression}
 
@@ -44,8 +64,8 @@ Designed for binary response ($y \in  \{0, 1\}$)
 
 Instantiation of generalized linear model:
 \begin{enumerate}
-	\item Linear predictor (as before): XB (no epsilon)
-	\item Link function: Relates the conditional expectation ($\mu = E[Y|X]$) to linear predictor via g(mu) = XB.
+	\item Linear predictor $\eta$ (as before, linear combination of the predictors): $X\beta$ (no epsilon)
+	\item Link function: Relates the conditional expectation ($\mu = E[Y|X]$) to linear predictor via $g(mu) = X\beta$.
 		- For logistic regression, the link function is the logit (log odds)
 	\item Family of probability distribution in exponential family: Bernouili
 \end{enumerate}
