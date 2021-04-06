@@ -1,6 +1,9 @@
 \documentclass{article}
 
 \usepackage[a4paper, left=1in, right=1in]{geometry}
+\usepackage{amsmath}
+
+\DeclareMathOperator*{\argmin}{arg\,min}
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
@@ -110,7 +113,34 @@ Extremes as above: Can either recover OLS estimates with no penalty, or intercep
 
 \section{Decision Tree}
 
-- Split based on entropy or gini impurity
+Split based on entropy or gini impurity
+
+\subsection{ISLR}
+
+\subsubsection{Regression Trees}
+
+\textbf{Goal:} \textit{Partition} predictor space $\in R^p$ (assuming real-valued predictors for simplicity) into $J$ regions. Minimize the RSS for these $J$ regions, or written mathematically:
+
+\begin{equation*}
+	\argmin_{R_1, \ldots, R_J} \sum_j \sum_{i \in R_j} (y_i - \hat{y}_{R_j})^2
+\end{equation*}
+
+(Looping over all observations for their respective regions)
+
+\textbf{Problem:} This isn't even close to tractable.
+
+\textbf{Solution: Recursive Binary Splitting}
+
+\begin{itemize}
+	\item Greedy: Base decision for optimal split made without looking ahead
+	\item Top-down: Start from top of tree
+\end{itemize}
+
+Consider regions $R1, R2$ created by splitting predictor $j$ at a threshold $s$. Want to find best predictor / cutoff combination, or:
+
+\begin{equation*}
+	\argmin_{j, s} \sum_{i \in R1} (y_i - \hat{y}_{R_1})^2 + \sum_{i \in R2} (y_i - \hat{y}_{R_2})^2
+\end{equation*}
 
 \section{Random Forest}
 2 key ideas
