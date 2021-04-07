@@ -154,6 +154,7 @@ Consider regions $R1, R2$ created by splitting predictor $j$ at a threshold $s$.
 
 As $\alpha$ increases from 0, branches get pruned off predictably in a nested fashion. Choose $\alpha$ with cross-validation
 
+
 \subsubsection{Classification Trees}
 
 Recursive binary splitting also used to grow classification trees
@@ -172,6 +173,7 @@ Recursive binary splitting also used to grow classification trees
 
 \textbf{Note:} Still use classification error rate for predictive accuracy
 
+
 \section{Random Forest}
 2 key ideas
 \begin{itemize}
@@ -180,7 +182,11 @@ Recursive binary splitting also used to grow classification trees
 		- Decorrelate trees by only allowing the trees to choose from a random subset of variables at each split
 \end{itemize}
 
-Commonly consider splits of $\sqrt{p}$ or $log_2(p)	$
+Commonly consider splits of $\sqrt{p}$ or $log_2(p)$
+
+\textbf{Pro:} Random forests are built using bagging, and thus each tree only makes use of about $\frac23$ of the data. Thus, we can obtain an immediate estimate of the test error by predicting a labeled observation using all the trees that didn't fit with it. This is called the \textbf{out of bag} error, which approximates LOOCV as the number of trees grows large
+
+\textbf{Feature importance:} We can average the drop in Gini index / entropy over all trees that used a given feature to estimate the importance of a variable. 
 
 \section{Naive Bayes}
 
