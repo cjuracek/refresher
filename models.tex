@@ -142,6 +142,36 @@ Consider regions $R1, R2$ created by splitting predictor $j$ at a threshold $s$.
 	\argmin_{j, s} \sum_{i \in R1} (y_i - \hat{y}_{R_1})^2 + \sum_{i \in R2} (y_i - \hat{y}_{R_2})^2
 \end{equation*}
 
+\textbf{Problem:} This likely builds a tree that overfits the training data (tree too complex)
+
+\textbf{Solution?}: Grow a large tree $T_0$ under this approach, and select a subtree from it with best cross-validation error. But there are too many subtrees to consider!
+
+\textbf{Solution 2}: \textit{Cost complexity pruning} is one solution, providing a tradeoff between model fit and complexity. This tuning is controlled by $\alpha$ - as it increases, we penalize the candidate tree $T$ for having more leaves. Thus, we are interested in the best tree as a function of $\alpha$:
+
+\begin{equation*}
+	\argmin_T \sum_{m=1}^T RSS(y_i, y_{R_m}) + \alpha |T|
+\end{equation*}
+
+As $\alpha$ increases from 0, branches get pruned off predictably in a nested fashion. Choose $\alpha$ with cross-validation
+
+\subsubsection{Classification Trees}
+
+Recursive binary splitting also used to grow classification trees
+
+\textbf{Problem:} Cannot use RSS for splits
+
+\textbf{Solution?} Use classification error rate to measure how well a node is doing:
+
+\begin{equation*}
+	1 - max_k p_{mk}
+\end{equation*}
+
+(Proportion in mth region belonging to kth class). But this isn't sensitive enough to ``node purity''
+
+\textbf{Solution:} Use one of \textbf{Gini Impurity} or \textbf{entropy}. Both reward nodes for having observations close to 0 or 1 proportion.
+
+\textbf{Note:} Still use classification error rate for predictive accuracy
+
 \section{Random Forest}
 2 key ideas
 \begin{itemize}
