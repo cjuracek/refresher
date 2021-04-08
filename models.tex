@@ -4,6 +4,7 @@
 \usepackage{amsmath}
 
 \DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
 
 \setlength{\parindent}{0em}
 \setlength{\parskip}{1em}
@@ -56,7 +57,7 @@ The most immediate metric for a model is $R^2$: the percentage of variance expla
 Therefore some alternative criterion are introduced to account for additional predictors:
 
 \begin{itemize}
-	\item Adjusted $R^2$: Like $R^2$, but "penalizes" on adding more predictors. Can compare models with different number of predictors
+	\item Adjusted $R^2$: Like $R^2$, but ``penalizes'' on adding more predictors. Can compare models with different number of predictors
 	\item AIC / BIC
 \end{itemize}
 
@@ -84,12 +85,15 @@ No residuals. Why?
 
 Classic linear regression does not work in high-dimensional setting ($X^T X$ is singular, and therefore its inverse is not defined). Lasso is
 	
-\textit{Hope:} Better performance on unseen data by utilizing the bias-variance tradeoff. We introduce more \textit{bias} to the model (doesn't fit training data as well), in hopes that the subsequent decrease in variance will be worth it
+\textit{Hope:} Better performance on unseen data by utilizing the bias-variance tradeoff. We introduce more \textit{bias} to the model (doesn't fit training data as well), in hopes that the subsequent decrease in variance will be worth 
 
-	- Depending on magnitude of penalization, will perform feature selection
-- How does it feature select?
-	- Geometrically, the L1 penalty can be thought of as a diamond (2d), tetrahedron (3d), etc. shape around the origin. With the penalty term, we're saying the beta solutions need to live in this shape. So we radiate out in equal SSR contours from the OLS estimate until we hit this shape, and we call that our solution. As the dimensions go up, it's a virtual certainty that we will hit some sharp "corner" of this shape. This is because the curse of dimensionality pushes more and more volume into the corners in high dimensions, very spindly. And by definition, the corners of this shape are axes, and axes are defined such that some beta values are 0.
-2 extremes
+Depending on magnitude of penalization, will perform feature selection
+
+\subsection{Feature Selection: Geometrically}
+
+Geometrically, the L1 penalty can be thought of as a diamond (2d), tetrahedron (3d), etc. shape around the origin. With the penalty term, we're saying the beta solutions need to live in this shape. So we radiate out in equal SSR contours from the OLS estimate until we hit this shape, and we call that our solution. As the dimensions go up, it's a virtual certainty that we will hit some sharp "corner" of this shape. This is because the curse of dimensionality pushes more and more volume into the corners in high dimensions, very spindly. And by definition, the corners of this shape are axes, and axes are defined such that some beta values are 0.
+
+2 extremes:
 \begin{itemize}
 	\item $\lambda$ = 0: No penalty on beta coefficients. Recover OLS estimates
 	\item $\lambda \leftarrow \infty$ : Extreme penalty on beta coefficients. Fits an intercept only hyperplane for the model
@@ -177,8 +181,8 @@ Recursive binary splitting also used to grow classification trees
 \section{Random Forest}
 2 key ideas
 \begin{itemize}
-	\item Bagging ("forest"): Reduce the high variance of a single decision tree by taking many bootstrapped samples and averaging bootstrapped samples obtained by taking samples 	from the original dataset \textit{with replacement} until we have one of the same size
-	\item Random feature subsets ("random"): If we have one really important feature, then all bagged trees will use it at the top level -> trees will be correlated. Averaging correlated 		quantities does not reduce variance as much
+	\item Bagging (``forest''): Reduce the high variance of a single decision tree by taking many bootstrapped samples and averaging bootstrapped samples obtained by taking samples 	from the original dataset \textit{with replacement} until we have one of the same size
+	\item Random feature subsets (``random''): If we have one really important feature, then all bagged trees will use it at the top level $\rightarrow$ trees will be correlated. Averaging correlated 		quantities does not reduce variance as much
 		- Decorrelate trees by only allowing the trees to choose from a random subset of variables at each split
 \end{itemize}
 
@@ -190,8 +194,49 @@ Commonly consider splits of $\sqrt{p}$ or $log_2(p)$
 
 \section{Naive Bayes}
 
+\subsection{Model Formulation}
+
+\textbf{Goal:} Calculate the class-dependent probabilities of an observation \textbf{x} $= [x_1, \ldots, x_n]$, and assign to class with highest probability. Thus,
+
+\begin{equation*}
+	\hat{y} = \argmax_k p(C_k | x_1, \ldots, x_n)
+\end{equation*}
+
+Using Bayes rule, we may re-express the probability of a given class as:
+
+\begin{equation*}
+	p(C_k | x) = \frac{p(C_k) p(x | C_k)}{p(x)}
+\end{equation*}
+
+When considering argmax problems, positive scalars do not affect the solution. Thus, we are interested in
+
+\begin{equation*}
+	\argmax_k p(C_k) p(x | C_k) = 	\argmax_k p(C_k) p(x_1, \ldots, x_n | C_k)
+\end{equation*}
+
+From here, we apply the ``naive'' assumption of Naive Bayes. We assume each of the features are conditionally independent \textit{given} the class label. And thus, we have:
+
+\begin{equation*}
+	\argmax_k p(C_k) p(x_1, \ldots, x_n | C_k) = \argmax_k p(C_k) * \prod p(x_i | C_k)
+\end{equation*}
+
+Priors on the class labels $(p(C_k))$ are often assumed to be the relative frequency of how often they show up in the training data. The sampling model is more complicated, leading to:
+
+\subsection{Event Model}
+
+From here, we need to specify an assumption about the distribution $x_i | C_k$. There are a few options (which are primarily dictated by the type of our predictor(s))
+
+\begin{itemize}
+	\item \textbf{Gaussian:} For a continuous $x_i$, assume $x_i | C_k \sim N(\mu_k, \sigma_k^2)$, where the parameters are obtained via ML from the training set (sample mean + variance)
+	\item \textbf{Multinomial:} For discrete \textbf{x} $\in R^n$, assume $x | C_k \sim Mult(\theta_{C_k})$, where the class specific theta parameters are given by smoothed ML estimates (to prevent multiplying by 0)
+	\item \textbf{Bernoulli:} For binary-valued predictors
+\end{itemize}
+
+
 \section{Support Vector Machine}
 
 \section{XG Boost}
+
+\section{KNN}
 
 \end{document}
