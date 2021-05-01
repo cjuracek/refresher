@@ -1,0 +1,4 @@
+Lilian Weng: https://lilianweng.github.io/lil-log/
+Christopher Olah: https://colah.github.io/
+Jay Alammar: http://jalammar.github.io/ (subscribed)
+Jeremy Jordan: https://www.jeremyjordan.me/ (subscribed)
