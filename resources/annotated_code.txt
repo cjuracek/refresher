@@ -1,0 +1,4 @@
+I think annotated code examples are a really good way to pair theory with implementation, so I'd like to keep track:
+
+https://nn.labml.ai/index.html
+http://nlp.seas.harvard.edu/ (annotated transformer)
